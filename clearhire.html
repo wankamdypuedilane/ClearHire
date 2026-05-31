@@ -96,7 +96,11 @@
         z-index: 0;
         background:
           linear-gradient(rgba(255, 255, 255, 0.022) 1px, transparent 1px),
-          linear-gradient(90deg, rgba(255, 255, 255, 0.022) 1px, transparent 1px),
+          linear-gradient(
+            90deg,
+            rgba(255, 255, 255, 0.022) 1px,
+            transparent 1px
+          ),
           radial-gradient(
             ellipse 60% 50% at 80% 20%,
             rgba(232, 82, 42, 0.14) 0%,
@@ -107,7 +111,11 @@
             rgba(42, 122, 232, 0.09) 0%,
             transparent 60%
           );
-        background-size: 48px 48px, 48px 48px, 100% 100%, 100% 100%;
+        background-size:
+          48px 48px,
+          48px 48px,
+          100% 100%,
+          100% 100%;
       }
 
       .noise {
@@ -319,11 +327,16 @@
         padding: 2rem;
         position: relative;
         overflow: hidden;
-        transition: border-color 0.3s, box-shadow 0.3s, transform 0.3s;
+        transition:
+          border-color 0.3s,
+          box-shadow 0.3s,
+          transform 0.3s;
       }
       .problem-card:hover {
         border-color: rgba(232, 82, 42, 0.3);
-        box-shadow: 0 0 0 1px rgba(232, 82, 42, 0.07), 0 16px 48px rgba(0, 0, 0, 0.4);
+        box-shadow:
+          0 0 0 1px rgba(232, 82, 42, 0.07),
+          0 16px 48px rgba(0, 0, 0, 0.4);
         transform: translateY(-2px);
       }
       .problem-card::before {
@@ -381,7 +394,10 @@
         background: var(--card-bg);
         border: 1px solid rgba(255, 255, 255, 0.06);
         border-radius: 16px;
-        transition: border-color 0.3s, box-shadow 0.3s, transform 0.3s;
+        transition:
+          border-color 0.3s,
+          box-shadow 0.3s,
+          transform 0.3s;
       }
       .step:hover {
         border-color: rgba(232, 82, 42, 0.22);
@@ -422,7 +438,9 @@
         padding: 2.5rem;
         position: relative;
         overflow: hidden;
-        transition: transform 0.3s, box-shadow 0.3s;
+        transition:
+          transform 0.3s,
+          box-shadow 0.3s;
       }
       .who-card:hover {
         transform: translateY(-3px);
@@ -770,7 +788,7 @@
       </div>
     </section>
 
-    <!-- HOW IT WORKS -->
+    <!-- HOW ITS WORKS -->
     <section class="how-section" id="how">
       <p class="section-label">Comment ça marche</p>
       <h2 class="section-title">Simple pour les deux côtés</h2>
