@@ -1,0 +1,983 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ClearHire — Le recrutement enfin transparent</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      :root {
+        --black: #0a0a0a;
+        --white: #f5f3ee;
+        --cream: #ede9e0;
+        --accent: #e8522a;
+        --accent2: #2a7ae8;
+        --mid: #6b6760;
+        --card-bg: #151412;
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        font-family: "Inter", sans-serif;
+        background: var(--black);
+        color: var(--white);
+        overflow-x: hidden;
+      }
+
+      /* NAV */
+      nav {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 100;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 1rem 2.5rem;
+        background: rgba(8, 8, 8, 0.92);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        box-shadow: 0 1px 0 rgba(255, 255, 255, 0.03);
+      }
+      .logo {
+        font-family: "Space Grotesk", sans-serif;
+        font-weight: 800;
+        font-size: 1.4rem;
+        letter-spacing: -0.02em;
+      }
+      .logo span {
+        color: var(--accent);
+      }
+      nav a.cta-nav {
+        background: var(--accent);
+        color: #fff;
+        padding: 0.55rem 1.4rem;
+        border-radius: 100px;
+        font-size: 0.93rem;
+        font-weight: 500;
+        text-decoration: none;
+        transition: opacity 0.2s;
+      }
+      nav a.cta-nav:hover {
+        opacity: 0.85;
+      }
+
+      /* HERO */
+      .hero {
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: flex-start;
+        padding: 8rem 2.5rem 4rem;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .hero-bg {
+        position: absolute;
+        inset: 0;
+        z-index: 0;
+        background:
+          linear-gradient(rgba(255, 255, 255, 0.022) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(255, 255, 255, 0.022) 1px, transparent 1px),
+          radial-gradient(
+            ellipse 60% 50% at 80% 20%,
+            rgba(232, 82, 42, 0.14) 0%,
+            transparent 60%
+          ),
+          radial-gradient(
+            ellipse 40% 40% at 10% 80%,
+            rgba(42, 122, 232, 0.09) 0%,
+            transparent 60%
+          );
+        background-size: 48px 48px, 48px 48px, 100% 100%, 100% 100%;
+      }
+
+      .noise {
+        position: absolute;
+        inset: 0;
+        z-index: 1;
+        opacity: 0.03;
+        background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+      }
+
+      .hero-content {
+        position: relative;
+        z-index: 2;
+        max-width: 780px;
+      }
+
+      .badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        background: rgba(232, 82, 42, 0.12);
+        border: 1px solid rgba(232, 82, 42, 0.3);
+        color: var(--accent);
+        padding: 0.4rem 1rem;
+        border-radius: 100px;
+        font-size: 0.88rem;
+        font-weight: 500;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+        margin-bottom: 2rem;
+        opacity: 0;
+        animation: fadeUp 0.6s 0.1s forwards;
+      }
+      .badge::before {
+        content: "";
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        background: var(--accent);
+        animation: pulse 1.5s infinite;
+      }
+
+      @keyframes pulse {
+        0%,
+        100% {
+          opacity: 1;
+          transform: scale(1);
+        }
+        50% {
+          opacity: 0.5;
+          transform: scale(1.4);
+        }
+      }
+
+      h1 {
+        font-family: "Space Grotesk", sans-serif;
+        font-size: clamp(2.8rem, 6vw, 5rem);
+        font-weight: 800;
+        line-height: 1.05;
+        letter-spacing: -0.03em;
+        margin-bottom: 1.5rem;
+        opacity: 0;
+        animation: fadeUp 0.7s 0.25s forwards;
+      }
+      h1 em {
+        font-style: normal;
+        color: var(--accent);
+      }
+      h1 .blue {
+        color: var(--accent2);
+      }
+
+      .hero-sub {
+        font-size: 1.1rem;
+        line-height: 1.7;
+        color: rgba(245, 243, 238, 0.6);
+        max-width: 520px;
+        margin-bottom: 2.5rem;
+        opacity: 0;
+        animation: fadeUp 0.7s 0.4s forwards;
+      }
+
+      .hero-ctas {
+        display: flex;
+        gap: 1rem;
+        flex-wrap: wrap;
+        opacity: 0;
+        animation: fadeUp 0.7s 0.55s forwards;
+      }
+
+      .btn-primary {
+        background: var(--accent);
+        color: #fff;
+        padding: 0.9rem 2rem;
+        border-radius: 100px;
+        font-size: 0.95rem;
+        font-weight: 500;
+        text-decoration: none;
+        border: none;
+        cursor: pointer;
+        transition:
+          transform 0.2s,
+          box-shadow 0.2s;
+        box-shadow: 0 4px 24px rgba(232, 82, 42, 0.35);
+      }
+      .btn-primary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 32px rgba(232, 82, 42, 0.45);
+      }
+
+      .btn-secondary {
+        background: transparent;
+        color: var(--white);
+        padding: 0.9rem 2rem;
+        border-radius: 100px;
+        font-size: 0.95rem;
+        font-weight: 400;
+        text-decoration: none;
+        border: 1px solid rgba(255, 255, 255, 0.15);
+        cursor: pointer;
+        transition:
+          border-color 0.2s,
+          background 0.2s;
+      }
+      .btn-secondary:hover {
+        border-color: rgba(255, 255, 255, 0.4);
+        background: rgba(255, 255, 255, 0.04);
+      }
+
+      .hero-stats {
+        display: flex;
+        gap: 3rem;
+        margin-top: 4rem;
+        opacity: 0;
+        animation: fadeUp 0.7s 0.7s forwards;
+        padding-top: 2rem;
+        border-top: 1px solid rgba(255, 255, 255, 0.08);
+      }
+      .stat-num {
+        font-family: "Space Grotesk", sans-serif;
+        font-size: 1.8rem;
+        font-weight: 800;
+        color: var(--white);
+      }
+      .stat-num span {
+        color: var(--accent);
+      }
+      .stat-label {
+        font-size: 0.88rem;
+        color: var(--mid);
+        margin-top: 0.2rem;
+      }
+
+      @keyframes fadeUp {
+        from {
+          opacity: 0;
+          transform: translateY(20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      /* PROBLEM SECTION */
+      .section {
+        padding: 6rem 2.5rem;
+      }
+      .section-label {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.6rem;
+        font-size: 0.82rem;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: var(--accent);
+        font-weight: 600;
+        margin-bottom: 1rem;
+      }
+      .section-label::before {
+        content: "";
+        display: block;
+        width: 18px;
+        height: 1.5px;
+        background: var(--accent);
+        border-radius: 2px;
+        flex-shrink: 0;
+      }
+      .section-title {
+        font-family: "Space Grotesk", sans-serif;
+        font-size: clamp(1.8rem, 3.5vw, 2.8rem);
+        font-weight: 700;
+        line-height: 1.15;
+        letter-spacing: -0.02em;
+        margin-bottom: 1.5rem;
+      }
+
+      .problem-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1.5rem;
+        margin-top: 3rem;
+      }
+
+      .problem-card {
+        background: var(--card-bg);
+        border: 1px solid rgba(255, 255, 255, 0.06);
+        border-radius: 16px;
+        padding: 2rem;
+        position: relative;
+        overflow: hidden;
+        transition: border-color 0.3s, box-shadow 0.3s, transform 0.3s;
+      }
+      .problem-card:hover {
+        border-color: rgba(232, 82, 42, 0.3);
+        box-shadow: 0 0 0 1px rgba(232, 82, 42, 0.07), 0 16px 48px rgba(0, 0, 0, 0.4);
+        transform: translateY(-2px);
+      }
+      .problem-card::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 2px;
+        background: linear-gradient(90deg, var(--accent), transparent);
+        opacity: 0;
+        transition: opacity 0.3s;
+      }
+      .problem-card:hover::before {
+        opacity: 1;
+      }
+
+      .problem-icon {
+        font-size: 1.5rem;
+        margin-bottom: 1rem;
+      }
+      .problem-card h3 {
+        font-family: "Space Grotesk", sans-serif;
+        font-size: 1.05rem;
+        font-weight: 700;
+        margin-bottom: 0.6rem;
+      }
+      .problem-card p {
+        font-size: 0.97rem;
+        line-height: 1.65;
+        color: rgba(245, 243, 238, 0.5);
+      }
+
+      /* HOW IT WORKS */
+      .how-section {
+        padding: 6rem 2.5rem;
+        background: linear-gradient(
+          180deg,
+          transparent,
+          rgba(232, 82, 42, 0.03),
+          transparent
+        );
+      }
+
+      .steps {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 2rem;
+        margin-top: 3.5rem;
+      }
+
+      .step {
+        position: relative;
+        padding: 2rem;
+        background: var(--card-bg);
+        border: 1px solid rgba(255, 255, 255, 0.06);
+        border-radius: 16px;
+        transition: border-color 0.3s, box-shadow 0.3s, transform 0.3s;
+      }
+      .step:hover {
+        border-color: rgba(232, 82, 42, 0.22);
+        box-shadow: 0 16px 48px rgba(0, 0, 0, 0.35);
+        transform: translateY(-3px);
+      }
+
+      .step-num {
+        font-family: "Space Grotesk", sans-serif;
+        font-size: 3.5rem;
+        font-weight: 800;
+        color: rgba(232, 82, 42, 0.15);
+        line-height: 1;
+        margin-bottom: 1rem;
+      }
+      .step h3 {
+        font-family: "Space Grotesk", sans-serif;
+        font-size: 1rem;
+        font-weight: 700;
+        margin-bottom: 0.6rem;
+      }
+      .step p {
+        font-size: 0.95rem;
+        line-height: 1.65;
+        color: rgba(245, 243, 238, 0.5);
+      }
+
+      /* FOR WHO */
+      .forwho {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1.5rem;
+        margin-top: 3rem;
+      }
+
+      .who-card {
+        border-radius: 20px;
+        padding: 2.5rem;
+        position: relative;
+        overflow: hidden;
+        transition: transform 0.3s, box-shadow 0.3s;
+      }
+      .who-card:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 20px 56px rgba(0, 0, 0, 0.45);
+      }
+      .who-card.candidates {
+        background: linear-gradient(135deg, #1a1208, #0f1a08);
+        border: 1px solid rgba(42, 122, 232, 0.2);
+      }
+      .who-card.companies {
+        background: linear-gradient(135deg, #1a0c08, #180808);
+        border: 1px solid rgba(232, 82, 42, 0.2);
+      }
+
+      .who-tag {
+        display: inline-block;
+        padding: 0.3rem 0.8rem;
+        border-radius: 100px;
+        font-size: 0.82rem;
+        font-weight: 600;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        margin-bottom: 1.5rem;
+      }
+      .candidates .who-tag {
+        background: rgba(42, 122, 232, 0.15);
+        color: var(--accent2);
+      }
+      .companies .who-tag {
+        background: rgba(232, 82, 42, 0.15);
+        color: var(--accent);
+      }
+
+      .who-card h3 {
+        font-family: "Space Grotesk", sans-serif;
+        font-size: 1.3rem;
+        font-weight: 700;
+        margin-bottom: 1rem;
+      }
+
+      .who-list {
+        list-style: none;
+      }
+      .who-list li {
+        display: flex;
+        align-items: flex-start;
+        gap: 0.7rem;
+        font-size: 0.97rem;
+        line-height: 1.6;
+        color: rgba(245, 243, 238, 0.65);
+        margin-bottom: 0.7rem;
+      }
+      .who-list li::before {
+        content: "→";
+        flex-shrink: 0;
+        margin-top: 0.05rem;
+      }
+      .candidates .who-list li::before {
+        color: var(--accent2);
+      }
+      .companies .who-list li::before {
+        color: var(--accent);
+      }
+
+      /* SIGNUP */
+      .signup-section {
+        padding: 6rem 2.5rem;
+        text-align: center;
+      }
+
+      .signup-box {
+        max-width: 600px;
+        margin: 0 auto;
+        background: var(--card-bg);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        border-radius: 24px;
+        padding: 3.5rem 2.5rem;
+        position: relative;
+        overflow: hidden;
+      }
+      .signup-box::before {
+        content: "";
+        position: absolute;
+        top: -80px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 300px;
+        height: 300px;
+        background: radial-gradient(
+          circle,
+          rgba(232, 82, 42, 0.12),
+          transparent 70%
+        );
+        pointer-events: none;
+      }
+
+      .signup-box h2 {
+        font-family: "Space Grotesk", sans-serif;
+        font-size: 1.9rem;
+        font-weight: 800;
+        letter-spacing: -0.02em;
+        margin-bottom: 0.8rem;
+      }
+      .signup-box p {
+        color: rgba(245, 243, 238, 0.5);
+        font-size: 1rem;
+        line-height: 1.6;
+        margin-bottom: 2rem;
+      }
+
+      .tabs {
+        display: flex;
+        background: rgba(255, 255, 255, 0.05);
+        border-radius: 100px;
+        padding: 4px;
+        margin-bottom: 1.5rem;
+      }
+      .tab {
+        flex: 1;
+        padding: 0.6rem;
+        border-radius: 100px;
+        font-size: 0.93rem;
+        font-weight: 500;
+        cursor: pointer;
+        border: none;
+        background: transparent;
+        color: rgba(255, 255, 255, 0.5);
+        transition: all 0.2s;
+      }
+      .tab.active {
+        background: var(--accent);
+        color: #fff;
+      }
+
+      .form-row {
+        display: flex;
+        gap: 0.8rem;
+      }
+
+      input[type="text"],
+      input[type="email"] {
+        flex: 1;
+        padding: 0.85rem 1.2rem;
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 100px;
+        color: var(--white);
+        font-family: "Inter", sans-serif;
+        font-size: 1rem;
+        outline: none;
+        transition: border-color 0.2s;
+      }
+      input[type="text"]:focus,
+      input[type="email"]:focus {
+        border-color: rgba(232, 82, 42, 0.5);
+      }
+      input::placeholder {
+        color: rgba(255, 255, 255, 0.3);
+      }
+
+      .btn-submit {
+        padding: 0.85rem 1.8rem;
+        border-radius: 100px;
+        background: var(--accent);
+        color: #fff;
+        border: none;
+        cursor: pointer;
+        font-weight: 600;
+        font-size: 1rem;
+        white-space: nowrap;
+        transition:
+          opacity 0.2s,
+          transform 0.2s;
+      }
+      .btn-submit:hover {
+        opacity: 0.88;
+        transform: translateY(-1px);
+      }
+
+      .signup-note {
+        margin-top: 1rem;
+        font-size: 0.85rem;
+        color: rgba(255, 255, 255, 0.3);
+      }
+
+      /* FOOTER */
+      footer {
+        padding: 2rem 2.5rem;
+        border-top: 1px solid rgba(255, 255, 255, 0.06);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 1rem;
+      }
+      footer .logo {
+        font-size: 1rem;
+      }
+      footer p {
+        font-size: 0.88rem;
+        color: var(--mid);
+      }
+
+      /* RESPONSIVE */
+      @media (max-width: 768px) {
+        nav {
+          padding: 1rem 1.2rem;
+        }
+        .hero {
+          padding: 7rem 1.2rem 3rem;
+        }
+        h1 {
+          font-size: 2.4rem;
+        }
+        .hero-stats {
+          gap: 1.5rem;
+          flex-wrap: wrap;
+        }
+        .problem-grid,
+        .steps,
+        .forwho {
+          grid-template-columns: 1fr;
+        }
+        .section,
+        .how-section,
+        .signup-section {
+          padding: 4rem 1.2rem;
+        }
+        .form-row {
+          flex-direction: column;
+        }
+        footer {
+          flex-direction: column;
+          text-align: center;
+        }
+      }
+
+      /* success / error states */
+      .success-msg,
+      .error-msg {
+        display: none;
+        text-align: center;
+        padding: 0.75rem 1rem;
+        font-size: 0.9rem;
+        font-weight: 500;
+        margin-top: 0.5rem;
+        border-radius: 8px;
+      }
+      .success-msg {
+        color: #4ade80;
+        background: rgba(74, 222, 128, 0.08);
+      }
+      .error-msg {
+        color: #f87171;
+        background: rgba(248, 113, 113, 0.08);
+      }
+    </style>
+  </head>
+  <body>
+    <!-- NAV -->
+    <nav>
+      <div class="logo">Clear<span>Hire</span></div>
+      <a href="#signup" class="cta-nav">Rejoindre la liste d'attente</a>
+    </nav>
+
+    <!-- HERO -->
+    <section class="hero">
+      <div class="hero-bg"></div>
+      <div class="noise"></div>
+      <div class="hero-content">
+        <div class="badge">Bientôt disponible · Bêta 2026</div>
+        <h1>
+          Le recrutement<br />enfin <em>transparent</em><br />pour
+          <span class="blue">tout le monde</span>
+        </h1>
+        <p class="hero-sub">
+          Fini les refus sans explication. ClearHire connecte candidats et
+          entreprises avec un feedback structuré garanti — et un matching qui
+          met fin à l'opacité pour les profils internationaux.
+        </p>
+        <div class="hero-ctas">
+          <a href="#signup" class="btn-primary">Je veux être prévenu·e</a>
+          <a href="#how" class="btn-secondary">Comment ça marche ?</a>
+        </div>
+        <div class="hero-stats">
+          <div>
+            <div class="stat-num">Gratuit</div>
+            <div class="stat-label">pour tous les candidats</div>
+          </div>
+          <div>
+            <div class="stat-num">100<span>%</span></div>
+            <div class="stat-label">des candidatures reçoivent un feedback</div>
+          </div>
+          <div>
+            <div class="stat-num">2<span>x</span></div>
+            <div class="stat-label">plus de chances d'être rappelé·e</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PROBLEM -->
+    <section class="section">
+      <p class="section-label">Le problème</p>
+      <h2 class="section-title">
+        Le recrutement est cassé.<br />On le répare.
+      </h2>
+      <div class="problem-grid">
+        <div class="problem-card">
+          <div class="problem-icon">🔇</div>
+          <h3>Le silence après le refus</h3>
+          <p>
+            Tu postules, tu attends, tu reçois un "nous n'avons pas retenu votre
+            candidature". Sans savoir pourquoi. Sans pouvoir progresser. C'est
+            épuisant et injuste.
+          </p>
+        </div>
+        <div class="problem-card">
+          <div class="problem-icon">🚧</div>
+          <h3>L'opacité pour les profils internationaux</h3>
+          <p>
+            Les entreprises ne précisent jamais si elles acceptent les étudiants
+            étrangers. Tu postules dans le vide, sans savoir si ton statut est
+            un frein dès le départ.
+          </p>
+        </div>
+        <div class="problem-card">
+          <div class="problem-icon">🎯</div>
+          <h3>Le réseau remplace le mérite</h3>
+          <p>
+            En France, une grande partie des stages et emplois se décrochent par
+            cooptation. Sans réseau local, même les meilleurs profils restent
+            invisibles.
+          </p>
+        </div>
+        <div class="problem-card">
+          <div class="problem-icon">📉</div>
+          <h3>Des candidatures dans le vide</h3>
+          <p>
+            Des dizaines de candidatures envoyées, des heures investies — pour
+            un retour qui ne permet même pas de savoir si l'effort en vaut la
+            peine.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- HOW IT WORKS -->
+    <section class="how-section" id="how">
+      <p class="section-label">Comment ça marche</p>
+      <h2 class="section-title">Simple pour les deux côtés</h2>
+      <div class="steps">
+        <div class="step">
+          <div class="step-num">01</div>
+          <h3>Crée ton profil</h3>
+          <p>
+            Candidat ou entreprise, tu crées un profil en quelques minutes. Les
+            entreprises indiquent explicitement leur ouverture aux profils
+            internationaux.
+          </p>
+        </div>
+        <div class="step">
+          <div class="step-num">02</div>
+          <h3>Le matching inversé</h3>
+          <p>
+            Les entreprises parcourent des profils anonymisés et envoient des
+            invitations à candidater. Tu sais avant de postuler qu'une vraie
+            opportunité t'attend.
+          </p>
+        </div>
+        <div class="step">
+          <div class="step-num">03</div>
+          <h3>Feedback garanti</h3>
+          <p>
+            Après chaque décision, un feedback structuré est envoyé. Pas un
+            message automatique vague — des axes précis pour progresser
+            concrètement.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- FOR WHO -->
+    <section class="section">
+      <p class="section-label">Pour qui</p>
+      <h2 class="section-title">Deux côtés, une seule mission</h2>
+      <div class="forwho">
+        <div class="who-card candidates">
+          <span class="who-tag">Candidats</span>
+          <h3>Étudiants &<br />jeunes diplômés</h3>
+          <ul class="who-list">
+            <li>Reçois un feedback structuré après chaque refus</li>
+            <li>
+              Sache avant de postuler si l'entreprise accepte les profils
+              étrangers
+            </li>
+            <li>Suis ta progression candidature après candidature</li>
+            <li>
+              Accède à des entreprises qui recherchent activement ton profil
+            </li>
+          </ul>
+        </div>
+        <div class="who-card companies">
+          <span class="who-tag">Entreprises</span>
+          <h3>Recruteurs &<br />RH</h3>
+          <ul class="who-list">
+            <li>Accède à des profils pré-qualifiés et motivés</li>
+            <li>
+              Affiche clairement ta politique internationale pour attirer les
+              bons profils
+            </li>
+            <li>
+              Donne un feedback en 30 secondes grâce à notre interface guidée
+            </li>
+            <li>
+              Obtiens le badge "Entreprise Transparente" visible par tous les
+              candidats
+            </li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- SIGNUP -->
+    <section class="signup-section" id="signup">
+      <div class="signup-box">
+        <h2>Sois parmi les premiers</h2>
+        <p>
+          ClearHire est en construction. Inscris-toi pour être prévenu·e en
+          priorité au lancement et participer à la bêta.
+        </p>
+
+        <div class="tabs">
+          <button class="tab active" onclick="setTab(this, 'candidat')">
+            Je suis candidat·e
+          </button>
+          <button class="tab" onclick="setTab(this, 'entreprise')">
+            Je suis une entreprise
+          </button>
+        </div>
+
+        <div class="form-row">
+          <input type="email" id="email-input" placeholder="ton@email.com" />
+          <button class="btn-submit" onclick="handleSubmit()">
+            Rejoindre →
+          </button>
+        </div>
+        <p class="signup-note">
+          Aucun spam. Juste une notification au lancement.
+        </p>
+        <p class="success-msg" id="success-msg">
+          ✓ Parfait ! Tu es sur la liste. On te prévient dès le lancement.
+        </p>
+        <p class="error-msg" id="error-msg"></p>
+      </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+      <div class="logo">Clear<span>Hire</span></div>
+      <p>© 2026 ClearHire · Brest, France · Projet en cours de développement</p>
+    </footer>
+
+    <script>
+      let currentTab = "candidat";
+
+      function setTab(el, tab) {
+        document
+          .querySelectorAll(".tab")
+          .forEach((t) => t.classList.remove("active"));
+        el.classList.add("active");
+        currentTab = tab;
+        document.getElementById("email-input").placeholder =
+          tab === "candidat" ? "ton@email.com" : "contact@entreprise.com";
+      }
+
+      async function handleSubmit() {
+        const emailInput = document.getElementById("email-input");
+        const btn = document.querySelector(".btn-submit");
+        const errorEl = document.getElementById("error-msg");
+        const email = emailInput.value.trim();
+
+        if (!email || !email.includes("@")) {
+          emailInput.style.borderColor = "rgba(232,82,42,0.8)";
+          setTimeout(() => {
+            emailInput.style.borderColor = "";
+          }, 1500);
+          return;
+        }
+
+        btn.disabled = true;
+        btn.textContent = "…";
+        errorEl.style.display = "none";
+
+        try {
+          const res = await fetch("/api/subscribe", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ email, type: currentTab }),
+          });
+
+          const data = await res.json();
+
+          if (res.ok) {
+            document.querySelector(".form-row").style.display = "none";
+            document.querySelector(".signup-note").style.display = "none";
+            document.getElementById("success-msg").style.display = "block";
+          } else if (res.status === 409) {
+            errorEl.textContent = "✓ Tu es déjà sur la liste !";
+            errorEl.style.color = "#4ade80";
+            errorEl.style.background = "rgba(74, 222, 128, 0.08)";
+            errorEl.style.display = "block";
+            btn.disabled = false;
+            btn.textContent = "Rejoindre →";
+          } else {
+            errorEl.textContent =
+              data.error || "Une erreur est survenue. Réessaie.";
+            errorEl.style.color = "#f87171";
+            errorEl.style.background = "rgba(248, 113, 113, 0.08)";
+            errorEl.style.display = "block";
+            btn.disabled = false;
+            btn.textContent = "Rejoindre →";
+          }
+        } catch (_) {
+          errorEl.textContent =
+            "Problème de connexion. Réessaie dans un moment.";
+          errorEl.style.color = "#f87171";
+          errorEl.style.background = "rgba(248, 113, 113, 0.08)";
+          errorEl.style.display = "block";
+          btn.disabled = false;
+          btn.textContent = "Rejoindre →";
+        }
+      }
+
+      // Intersection Observer for scroll animations
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              entry.target.style.opacity = "1";
+              entry.target.style.transform = "translateY(0)";
+            }
+          });
+        },
+        { threshold: 0.1 },
+      );
+
+      document
+        .querySelectorAll(".problem-card, .step, .who-card")
+        .forEach((el) => {
+          el.style.opacity = "0";
+          el.style.transform = "translateY(24px)";
+          el.style.transition = "opacity 0.6s ease, transform 0.6s ease";
+          observer.observe(el);
+        });
+    </script>
+  </body>
+</html>
